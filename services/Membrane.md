@@ -1,6 +1,6 @@
 # Membrane Service
 
-Membrane Service enabled creation and management of capabilities.
+Membrane Service enables creation and management of capabilities.
 
 Membrane Service can be constructed using the SDK as follows:
 ```javascript
