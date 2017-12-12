@@ -59,6 +59,11 @@ Membrane.SCHEMA =
         config: Joi.object().keys(
             {
                 allowQuery: Joi.boolean(),
+                capability: Joi.string().regex(new RegExp(`^.+/#${regex.base64url.source}$`)).uri(
+                    {
+                        scheme: [ "cpblty" ]
+                    }
+                ),
                 headers: Joi.object(),
                 hmac: Joi.object().keys(
                     {
@@ -84,9 +89,9 @@ Membrane.SCHEMA =
                     {
                         scheme: [ "http", "https" ]
                     }
-                ).required()
+                )
             }
-        ).required()
+        ).xor("capability", "uri").required()
     },
     query: Joi.object().keys(
         {
@@ -94,7 +99,7 @@ Membrane.SCHEMA =
             lastId: Joi.string().max(256),
             limit: Joi.number().integer()
         }
-    )
+    ).required()
 };
 
 /*
