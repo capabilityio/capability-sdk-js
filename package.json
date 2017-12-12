@@ -4,7 +4,7 @@
   "description": "Capability SDK for Node.js",
   "dependencies": {
     "capability-uri": "0.3.0",
-    "concat-stream": "1.5.1",
+    "concat-stream": "1.6.0",
     "joi": "13.0.2"
   },
   "contributors": [
