@@ -1,5 +1,5 @@
 {
-  "name": "capability-sdk-js",
+  "name": "capability-sdk",
   "version": "0.1.0",
   "description": "Capability SDK for Node.js",
   "dependencies": {
