@@ -146,6 +146,7 @@ Membrane.prototype.create = function(createCapability, membrane, callback)
 */
 Membrane.prototype.deleteSelf = function(deleteSelfCapability, callback)
 {
+    const self = this;
     request(
         deleteSelfCapability,
         {
@@ -286,6 +287,7 @@ Membrane.prototype.query = function(queryCapability, query = {}, callback)
 */
 Membrane.prototype.revoke = function(revokeCapability, callback)
 {
+    const self = this;
     request(
         revokeCapability,
         {
