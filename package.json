@@ -20,7 +20,7 @@
     "type": "git",
     "url": "git@github.com:capabilityio/capability-sdk-js.git"
   },
-  "keywors": [
+  "keywords": [
     "capability",
     "capabilityio",
     "sdk",
