@@ -14,7 +14,7 @@ Capability SDK for Node.js.
   * [Documentation](#documentation)
     * Services
       * [Membrane](services/Membrane.md): create and manage capabilities.
-  * [Releases]
+  * [Releases](#releases)
 
 ## Installation
 
