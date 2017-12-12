@@ -1,8 +1,8 @@
-# capability-sdk-js
+# capability-sdk
 
 _Stability: 1 - [Experimental](https://github.com/tristanls/stability-index#stability-1---experimental)_
 
-[![NPM version](https://badge.fury.io/js/capability-sdk-js.png)](http://npmjs.org/package/capability-sdk-js)
+[![NPM version](https://badge.fury.io/js/capability-sdk.png)](http://npmjs.org/package/capability-sdk)
 
 Capability SDK for Node.js.
 
