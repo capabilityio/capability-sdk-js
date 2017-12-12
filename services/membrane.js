@@ -24,7 +24,7 @@ const regex = require("../regex.js");
 const request = require("../request.js");
 const util = require("util");
 
-const Membrane = module.exports = function()
+const Membrane = module.exports = function(config)
 {
     if (!(this instanceof Membrane))
     {
@@ -34,7 +34,12 @@ const Membrane = module.exports = function()
     events.EventEmitter.call(self);
 
     self.name = `${pkg.name}:membrane`;
-    self.version = pkg.version
+    self.version = pkg.version;
+
+    self.tls =
+    {
+        rejectUnauthorized: (config && config.tls && config.tls.rejectUnauthorized === false) ? false : true
+    }
 };
 
 util.inherits(Membrane, events.EventEmitter);
@@ -123,7 +128,8 @@ Membrane.prototype.create = function(createCapability, membrane, callback)
         {
             "content-length": Buffer.byteLength(body)
         },
-        method: "POST"
+        method: "POST",
+        rejectUnauthorized: self.tls.rejectUnauthorized
     };
     request(
         createCapability,
@@ -142,7 +148,9 @@ Membrane.prototype.deleteSelf = function(deleteSelfCapability, callback)
 {
     request(
         deleteSelfCapability,
-        null,
+        {
+            rejectUnauthorized: self.tls.rejectUnauthorized
+        },
         null,
         callback
     );
@@ -214,7 +222,8 @@ Membrane.prototype.export = function(exportCapability, config, callback)
         {
             "content-length": Buffer.byteLength(body)
         },
-        method: "POST"
+        method: "POST",
+        rejectUnauthorized: self.tls.rejectUnauthorized
     };
     request(
         exportCapability,
@@ -254,7 +263,10 @@ Membrane.prototype.query = function(queryCapability, query = {}, callback)
     {
         return callback(validation.error);
     }
-    const options = {};
+    const options =
+    {
+        rejectUnauthorized: self.tls.rejectUnauthorized
+    };
     if (query.id || query.lastId || query.limit)
     {
         options.path = `/?${querystring.stringify(query)}`;
@@ -276,7 +288,9 @@ Membrane.prototype.revoke = function(revokeCapability, callback)
 {
     request(
         revokeCapability,
-        null,
+        {
+            rejectUnauthorized: self.tls.rejectUnauthorized
+        },
         null,
         callback
     );
