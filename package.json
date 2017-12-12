@@ -1,6 +1,6 @@
 {
   "name": "capability-sdk",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Capability SDK for Node.js",
   "dependencies": {
     "capability-uri": "0.3.0",
