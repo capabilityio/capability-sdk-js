@@ -29,7 +29,7 @@ Once an instance of the Membrane Service is created, you can use it to make call
 
 Creates a new membrane. For example:
 ```javascript
-const createCapability = `cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-CZ9zvxISLdPVIiEPdyO6P67yxBOrhTv3FiLji5Qcou3K6hCHchXy-AZMVpGkEA5-9avUoraS-8VjClQuxZnzFQ`;
+const createCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-CZ9zvxISLdPVIiEPdyO6P67yxBOrhTv3FiLji5Qcou3K6hCHchXy-AZMVpGkEA5-9avUoraS-8VjClQuxZnzFQ";
 membrane.create(createCapability, {id: "my-first-membrane"}, (error, resp) =>
     {
         if (error)
@@ -65,7 +65,7 @@ Deletes Membrane Service tenant (your account within Membrane Service). This wil
 
 Example:
 ```javascript
-const deleteSelfCapability = `cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-OtWGOZF3FxlyVAh4chXhfy911Fcfa4N66hkMM-AF6cNEzc8AQYwhVYw0Bw13GDQOnGHVHF1_Ir90mr34zdH9Bg`;
+const deleteSelfCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-OtWGOZF3FxlyVAh4chXhfy911Fcfa4N66hkMM-AF6cNEzc8AQYwhVYw0Bw13GDQOnGHVHF1_Ir90mr34zdH9Bg";
 membrane.deleteSelf(deleteSelfCapability, error =>
     {
         if (error)
@@ -102,7 +102,7 @@ membrane.deleteSelf(deleteSelfCapability, error =>
 
 Exports a capability through the membrane per specified configuration. For example:
 ```javascript
-const exportCapability = `cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-E0dTSQY_Tq01tZtMAfQANR97S3jB8QXrDDv5dylF9-PM-MphtPmjWtTYmmiSHfuS3t0aXYVB0EM42JuLSsLLLA`;
+const exportCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-E0dTSQY_Tq01tZtMAfQANR97S3jB8QXrDDv5dylF9-PM-MphtPmjWtTYmmiSHfuS3t0aXYVB0EM42JuLSsLLLA";
 membrane.export(exportCapability,
     {
         uri: "https://example.com",
@@ -135,7 +135,7 @@ membrane.export(exportCapability,
 
 Alternatively, re-exports an already existing capability through the membrane. For example:
 ```javascript
-const exportCapability = `cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-E0dTSQY_Tq01tZtMAfQANR97S3jB8QXrDDv5dylF9-PM-MphtPmjWtTYmmiSHfuS3t0aXYVB0EM42JuLSsLLLA`;
+const exportCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-E0dTSQY_Tq01tZtMAfQANR97S3jB8QXrDDv5dylF9-PM-MphtPmjWtTYmmiSHfuS3t0aXYVB0EM42JuLSsLLLA";
 membrane.export(exportCapability,
     {
         capability: "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-LI1kp6Wwf0WxkAL3x6E5Zmoy3ktmLd5oit9BnDIGTsx2OqkVoCTwfO9SvS9loWaV7HLwc6lXi4CNq7Hzjpajow"
@@ -175,7 +175,7 @@ membrane.export(exportCapability,
 
 Queries for existing membranes. For example:
 ```javascript
-const queryCapability = `cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-egK2BKhEO9cNISYbfw0Kngpd-7jXp6eqJC98rxaOlDME0Sa6HWfJu5FzbITemg7GNlZY5-e6DW-DbElrs9IcvQ`;
+const queryCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-egK2BKhEO9cNISYbfw0Kngpd-7jXp6eqJC98rxaOlDME0Sa6HWfJu5FzbITemg7GNlZY5-e6DW-DbElrs9IcvQ";
 membrane.query(queryCapability, null, (error, resp) =>
     {
         if (error)
@@ -217,7 +217,7 @@ Revokes membrane. Revoking will delete all of the capabilities that were previou
 
 Example:
 ```javascript
-const revokeCapability = `cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-1lCiUqEOUpQwe6XKWM8unsu4667NyS7kNYSIKCw6pEm2-zRnwDmdoJkarbN81_Bo_cwWnfuXR4_2LhvInpNCYw`;
+const revokeCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-1lCiUqEOUpQwe6XKWM8unsu4667NyS7kNYSIKCw6pEm2-zRnwDmdoJkarbN81_Bo_cwWnfuXR4_2LhvInpNCYw";
 membrane.revoke(revokeCapability, error =>
     {
         if (error)
