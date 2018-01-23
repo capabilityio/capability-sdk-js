@@ -190,7 +190,7 @@ Membrane.prototype.deleteSelf = function(deleteSelfCapability, callback)
     * `hmac` (`uri` option): _Object_ _(Default: undefined)_ Optional selector
         for which signature scheme to use to sign membrane request to URI.
       * `aws4-hmac-sha256`: _Object_ Use AWS4-HMAC-SHA256 signature.
-        * `awsSecretKeyId`: _String_ AWS Secret Key Id to sign requests with.
+        * `awsAccessKeyId`: _String_ AWS Access Key Id to sign requests with.
         * `region`: _String_ AWS region capability is in.
         * `service`: _String_ AWS service capability is in.
         * `secretAccessKey`: _String_ AWS Secret Access Key to sign requests with.
