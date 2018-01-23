@@ -5,17 +5,12 @@
   "dependencies": {
     "capability-uri": "0.3.0",
     "concat-stream": "1.6.0",
-    "joi": "13.0.2"
+    "joi": "13.1.1"
   },
   "contributors": [
     "Tristan Slominski <tristan.slominski@gmail.com>"
   ],
-  "licenses": [
-    {
-      "type": "Apache 2.0",
-      "url": "http://github.com/capabilityio/capability-sdk-js/raw/master/LICENSE"
-    }
-  ],
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:capabilityio/capability-sdk-js.git"
