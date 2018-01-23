@@ -85,6 +85,11 @@ membrane.deleteSelf(deleteSelfCapability, error =>
     * `allowQuery` (`uri` option): _Boolean_ _(Default: false)_ Optionally allow requester's URI query string to be appended to the `uri` in membrane request.
     * `headers` (`uri` option): _Object_ _(Default: undefined)_ Optional headers to include with the membrane request to the URI. Hop-by-hop headers will be ignored.
     * `hmac` (`uri` option): _Object_ _(Default: undefined)_ Optional selector for which signature scheme to use to sign membrane request to URI.
+      * `aws4-hmac-sha256`: _Object_ Use AWS4-HMAC-SHA256 signature.
+        * `awsSecretKeyId`: _String_ AWS Secret Key Id to sign requests with.
+        * `region`: _String_ AWS region capability is in.
+        * `service`: _String_ AWS service capability is in.
+        * `secretAccessKey`: _String_ AWS Secret Access Key to sign requests with.
       * `cap1-hmac-sha512`: _Object_ Use CAP1-HMAC-SHA512 signature.
         * `key`: _String_ Base64url encoded secret key bytes.
         * `keyId`: _String_ Secret key id.

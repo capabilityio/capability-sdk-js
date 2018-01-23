@@ -67,6 +67,14 @@ Membrane.SCHEMA =
                 headers: Joi.object(),
                 hmac: Joi.object().keys(
                     {
+                        "aws4-hmac-sha256": Joi.object().keys(
+                            {
+                                awsAccessKeyId: Joi.string().max(128).regex(new RegExp(`^[\\w]+$`)).required(),
+                                region: Joi.string().max(128).required(),
+                                secretAccessKey: Joi.string().max(256).required(),
+                                service: Joi.string().max(128).required()
+                            }
+                        ),
                         "cap1-hmac-sha512": Joi.object().keys(
                             {
                                 key: Joi.string().regex(new RegExp(`^${regex.base64url.source}$`)).required(),
@@ -74,7 +82,7 @@ Membrane.SCHEMA =
                             }
                         )
                     }
-                ),
+                ).xor("aws4-hmac-sha256", "cap1-hmac-sha512"),
                 method: Joi.string().valid(http.METHODS),
                 timeoutMs: Joi.number().integer(),
                 tls: Joi.object().keys(
@@ -181,6 +189,11 @@ Membrane.prototype.deleteSelf = function(deleteSelfCapability, callback)
         be ignored.
     * `hmac` (`uri` option): _Object_ _(Default: undefined)_ Optional selector
         for which signature scheme to use to sign membrane request to URI.
+      * `aws4-hmac-sha256`: _Object_ Use AWS4-HMAC-SHA256 signature.
+        * `awsSecretKeyId`: _String_ AWS Secret Key Id to sign requests with.
+        * `region`: _String_ AWS region capability is in.
+        * `service`: _String_ AWS service capability is in.
+        * `secretAccessKey`: _String_ AWS Secret Access Key to sign requests with.
       * `cap1-hmac-sha512`: _Object_ Use CAP1-HMAC-SHA512 signature.
         * `key`: _String_ Base64url encoded secret key bytes.
         * `keyId`: _String_ Secret key id.
