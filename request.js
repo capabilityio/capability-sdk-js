@@ -43,7 +43,9 @@ module.exports = function(capability, options, data, callback)
     {
         reqOptions.port = uriParts[1];
     }
-    reqOptions.headers = Object.entries(reqOptions.headers || {})
+    reqOptions.headers = reqOptions.headers || {};
+    reqOptions.headers = Object.keys(reqOptions.headers)
+        .map(key => [key, reqOptions.headers[key]])
         .filter(([name, value]) => name.toLowerCase() != "authorization")
         .reduce((headers, [name, value]) =>
             {
