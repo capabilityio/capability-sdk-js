@@ -15,10 +15,10 @@
  */
 "use strict";
 
+const CapabilitySdk = require("./index.js");
 const CapabilityUri = require("capability-uri");
 const concat = require("concat-stream");
 const https = require("https");
-const url = require("url");
 
 /*
   * `capability`: _Capability URI_ Capability to use.
@@ -31,32 +31,7 @@ const url = require("url");
 */
 module.exports = function(capability, options, data, callback)
 {
-    const uri = CapabilityUri.parse(capability);
-    if (!uri.authority)
-    {
-        throw new Error(`Unable to determine capability authority to use for HTTPS request`);
-    }
-    const uriParts = uri.authority.split(":");
-    const reqOptions = options || {};
-    reqOptions.hostname = uriParts[0];
-    if (uriParts[1])
-    {
-        reqOptions.port = uriParts[1];
-    }
-    reqOptions.headers = reqOptions.headers || {};
-    reqOptions.headers = Object.keys(reqOptions.headers)
-        .map(key => [key, reqOptions.headers[key]])
-        .filter(([name, value]) => name.toLowerCase() != "authorization")
-        .reduce((headers, [name, value]) =>
-            {
-                headers[name] = value;
-                return headers;
-            },
-            {}
-        );
-    reqOptions.headers.authorization = `Bearer ${uri.capabilityToken.serialize()}`;
-    reqOptions.agent = new https.Agent(reqOptions);
-    const req = https.request(reqOptions);
+    const req = CapabilitySdk.request(capability, options);
     req.on("response", resp =>
         {
             resp.pipe(concat({encoding: "string"}, response =>

@@ -34,8 +34,38 @@ No tests at this time.
 
 ## Documentation
 
+  * [CapabilitySdk.request(capability, options, callback)](#capabilitysdkrequestcapability-options-callback)
   * Services
     * [Membrane](services/Membrane.md): create and manage capabilities.
+
+#### CapabilitySdk.request(capability, options, callback)
+
+  * `capability`: _Capability URI_ Capability to use.
+  * `options`: _Object_ HTTPS request options, if any. Hostname, port, and authorization header will be overriden by the specified `capability`.
+  * `callback`: _Function_ `(resp) => {}` _(Default: undefined)_ Optional callback that will be added as one time listener for the "response" event.
+  * Return: _http.ClientRequest_ Node.js HTTP ClientRequest object.
+
+Creates an HTTPS request using the provided `capability` and HTTP `options`. For example:
+```javascript
+const capability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-aqp9nlT7a22dTGhks8vXMJNabKyIZ_kAES6U87Ljdg73xXiatBzgu5tImuWjFMXicgYb3Vpo0-C6mbm5_uFtAA"
+const req = CapabilitySdk.request(capability);
+req.on("response", resp =>
+    {
+        console.log(`STATUS: ${resp.statusCode}`);
+        console.log(`HEADERS: ${JSON.stringify(resp.headers)}`);
+        resp.setEncoding('utf8');
+        resp.on("data", chunk => console.log(`BODY: ${chunk}`));
+        resp.on("end", () => console.log("No more data in response."));
+    }
+);
+req.on("error", error =>
+    {
+        console.error(`problem with request: ${error.message}`);
+    }
+);
+req.write("my data to write");
+req.end();
+```
 
 ## Releases
 

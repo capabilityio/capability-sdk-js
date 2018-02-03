@@ -16,6 +16,7 @@
 "use strict";
 
 const events = require("events");
+const https = require("https");
 const pkg = require("./package.json");
 const util = require("util");
 
@@ -35,6 +36,44 @@ const CapabilitySdk = module.exports = function(config = {})
 };
 
 util.inherits(CapabilitySdk, events.EventEmitter);
+
+/*
+  * `capability`: _Capability URI_ Capability to use.
+  * `options`: _Object_ HTTPS request options, if any. Hostname, port, and
+      authorization header will be overriden by the specified `capability`.
+  * `callback`: _Function_ `(resp) => {}` _(Default: undefined)_ Optional
+      callback that will be added as one time listener for the "response" event.
+  * Return: _http.ClientRequest_ Node.js HTTP ClientRequest object.
+*/
+CapabilitySdk.request = (capability, options, callback) =>
+{
+    const uri = CapabilityUri.parse(capability);
+    if (!uri.authority)
+    {
+        throw new Error(`Unable to determine capability authority to use for HTTPS request`);
+    }
+    const uriParts = uri.authority.split(":");
+    const reqOptions = options || {};
+    reqOptions.hostname = uriParts[0];
+    if (uriParts[1])
+    {
+        reqOptions.port = uriParts[1];
+    }
+    reqOptions.headers = reqOptions.headers || {};
+    reqOptions.headers = Object.keys(reqOptions.headers)
+        .map(key => [key, reqOptions.headers[key]])
+        .filter(([name, value]) => name.toLowerCase() != "authorization")
+        .reduce((headers, [name, value]) =>
+            {
+                headers[name] = value;
+                return headers;
+            },
+            {}
+        );
+    reqOptions.headers.authorization = `Bearer ${uri.capabilityToken.serialize()}`;
+    reqOptions.agent = new https.Agent(reqOptions);
+    return https.request(reqOptions, callback);
+};
 
 CapabilitySdk.SERVICES =
 [
