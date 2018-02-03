@@ -15,6 +15,7 @@
  */
 "use strict";
 
+const CapabilityUri = require("capability-uri");
 const events = require("events");
 const https = require("https");
 const pkg = require("./package.json");
