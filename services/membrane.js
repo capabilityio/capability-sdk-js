@@ -15,13 +15,13 @@
  */
 "use strict";
 
+const CapabilitySdk = require("../index.js");
 const events = require("events");
 const http = require("http");
 const Joi = require("joi");
 const pkg = require("../package.json");
 const querystring = require("querystring");
 const regex = require("../regex.js");
-const request = require("../request.js");
 const util = require("util");
 
 const Membrane = module.exports = function(config)
@@ -144,7 +144,7 @@ Membrane.prototype.create = function(createCapability, membrane, callback)
         method: "POST",
         rejectUnauthorized: self.tls.rejectUnauthorized
     };
-    request(
+    CapabilitySdk.requestReply(
         createCapability,
         options,
         body,
@@ -160,7 +160,7 @@ Membrane.prototype.create = function(createCapability, membrane, callback)
 Membrane.prototype.deleteSelf = function(deleteSelfCapability, callback)
 {
     const self = this;
-    request(
+    CapabilitySdk.requestReply(
         deleteSelfCapability,
         {
             rejectUnauthorized: self.tls.rejectUnauthorized
@@ -244,7 +244,7 @@ Membrane.prototype.export = function(exportCapability, config, callback)
         method: "POST",
         rejectUnauthorized: self.tls.rejectUnauthorized
     };
-    request(
+    CapabilitySdk.requestReply(
         exportCapability,
         options,
         body,
@@ -290,7 +290,7 @@ Membrane.prototype.query = function(queryCapability, query = {}, callback)
     {
         options.path = `/?${querystring.stringify(query)}`;
     };
-    request(
+    CapabilitySdk.requestReply(
         queryCapability,
         options,
         undefined,
@@ -306,7 +306,7 @@ Membrane.prototype.query = function(queryCapability, query = {}, callback)
 Membrane.prototype.revoke = function(revokeCapability, callback)
 {
     const self = this;
-    request(
+    CapabilitySdk.requestReply(
         revokeCapability,
         {
             rejectUnauthorized: self.tls.rejectUnauthorized

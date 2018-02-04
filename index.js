@@ -16,6 +16,7 @@
 "use strict";
 
 const CapabilityUri = require("capability-uri");
+const concat = require("concat-stream");
 const events = require("events");
 const https = require("https");
 const pkg = require("./package.json");
@@ -74,6 +75,72 @@ CapabilitySdk.request = (capability, options, callback) =>
     reqOptions.headers.authorization = `Bearer ${uri.capabilityToken.serialize()}`;
     reqOptions.agent = new https.Agent(reqOptions);
     return https.request(reqOptions, callback);
+};
+
+/*
+  * `capability`: _Capability URI_ Capability to use.
+  * `options`: _Object_ HTTPS request options, if any. Hostname, port, and
+      authorization header will be overriden by the specified `capability`.
+  * `data`: _String_ _(Default: undefined)_ Request data to send, if any.
+  * `callback`: _Function_ `(error, resp) => {}`
+    * `error`: _Error_ Error, if any.
+    * `resp`: _Object_ Response object.
+*/
+CapabilitySdk.requestReply = (capability, options, data, callback) =>
+{
+    const req = CapabilitySdk.request(capability, options);
+    req.on("response", resp =>
+        {
+            resp.pipe(concat({encoding: "string"}, response =>
+                {
+                    if (response.length > 0)
+                    {
+                        try
+                        {
+                            response = JSON.parse(response);
+                        }
+                        catch (e)
+                        {
+                            return callback(
+                                {
+                                    error: "Parsing response failed",
+                                    statusCode: resp.statusCode,
+                                    message: `error parsing "${response}"`
+                                }
+                            );
+                        }
+                    }
+                    if (resp.statusCode >= 400)
+                    {
+                        return callback(
+                            {
+                                error: response.error,
+                                statusCode: resp.statusCode,
+                                message: response.message
+                            }
+                        );
+                    }
+                    return callback(null, response);
+                }
+            ));
+        }
+    );
+    req.on("error", error =>
+        {
+            return callback(
+                {
+                    error: "Request failed",
+                    message: `Request failed due to ${error}`,
+                    details: error
+                }
+            );
+        }
+    );
+    if (data)
+    {
+        req.write(data);
+    }
+    req.end();
 };
 
 CapabilitySdk.SERVICES =

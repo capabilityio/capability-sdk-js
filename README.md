@@ -12,6 +12,8 @@ Capability SDK for Node.js.
   * [Usage](#usage)
   * [Tests](#tests)
   * [Documentation](#documentation)
+    * [CapabilitySdk.request(capability, options, callback)](#capabilitysdkrequestcapability-options-callback)
+    * [CapabilitySdk.requestReply(capability, options, data, callback)](#capabilitysdkrequestreplycapability-options-data-callback)
     * Services
       * [Membrane](services/Membrane.md): create and manage capabilities.
   * [Releases](#releases)
@@ -35,6 +37,7 @@ No tests at this time.
 ## Documentation
 
   * [CapabilitySdk.request(capability, options, callback)](#capabilitysdkrequestcapability-options-callback)
+  * [CapabilitySdk.requestReply(capability, options, data, callback)](#capabilitysdkrequestreplycapability-options-data-callback)
   * Services
     * [Membrane](services/Membrane.md): create and manage capabilities.
 
@@ -47,7 +50,7 @@ No tests at this time.
 
 Creates an HTTPS request using the provided `capability` and HTTP `options`. For example:
 ```javascript
-const capability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-aqp9nlT7a22dTGhks8vXMJNabKyIZ_kAES6U87Ljdg73xXiatBzgu5tImuWjFMXicgYb3Vpo0-C6mbm5_uFtAA"
+const capability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-aqp9nlT7a22dTGhks8vXMJNabKyIZ_kAES6U87Ljdg73xXiatBzgu5tImuWjFMXicgYb3Vpo0-C6mbm5_uFtAA";
 const req = CapabilitySdk.request(capability);
 req.on("response", resp =>
     {
@@ -65,6 +68,39 @@ req.on("error", error =>
 );
 req.write("my data to write");
 req.end();
+```
+
+#### CapabilitySdk.requestReply(capability, options, data, callback)
+
+  * `capability`: _Capability URI_ Capability to use.
+  * `options`: _Object_ HTTPS request options, if any. Hostname, port, and authorization header will be overriden by the specified `capability`.
+  * `data`: _String_ _(Default: undefined)_ Request data to send, if any.
+  * `callback`: _Function_ `(error, resp) => {}`
+    * `error`: _Error_ Error, if any.
+    * `resp`: _Object_ Response object.
+
+Creates an HTTPS request, sends `data` in the request, awaits JSON response, parses JSON response and/or error and calls `callback` with error or response. For example:
+```javascript
+const capability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-hcghmWpaSIR6mi7Qf1wTm4StWzckTNeYoVZhmyCZ9p5tkjrgpFS1hXOo3nQ60exxooUhX9Oo6JJVuAMlVFiNkg";
+const payload = JSON.stringify({hi: "o/"});
+CapabilitySdk.requestReply(
+    capability,
+    {
+        headers:
+        {
+            "Content-Length": Buffer.byteLength(payload, "utf8")
+        }
+    },
+    payload,
+    (error, resp) =>
+    {
+        if (error)
+        {
+            console.error(error);
+        }
+        console.log(resp);
+    }
+);
 ```
 
 ## Releases
