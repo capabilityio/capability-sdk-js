@@ -4,8 +4,8 @@
   "description": "Capability SDK for Node.js",
   "dependencies": {
     "capability-uri": "0.3.0",
-    "concat-stream": "1.6.0",
-    "joi": "13.1.2"
+    "concat-stream": "1.6.2",
+    "joi": "13.6.0"
   },
   "contributors": [
     "Tristan Slominski <tristan.slominski@gmail.com>"
