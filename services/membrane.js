@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Capability LLC. All Rights Reserved.
+ * Copyright 2017-2018 Capability LLC. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 "use strict";
 
 const CapabilitySdk = require("../index.js");
+const CapabilityURI = require("capability-uri");
 const events = require("events");
 const http = require("http");
 const Joi = require("joi");
@@ -24,6 +25,14 @@ const querystring = require("querystring");
 const regex = require("../regex.js");
 const util = require("util");
 
+/*
+  * `config`: _Object_ Membrane service configuration.
+    * `tls`: _Object_ _(Default: undefined)_ Optional TLS configuration overrides.
+      * `trustedCA`: _Object_ _(Default: undefined)_ Optional x509 Certificate
+          Authorities to trust explicitly with corresponding PEM CAs. `trustedCA`
+          keys are authorities, for example `example.com` and the values are
+          PEM CAs in form of strings.
+*/
 const Membrane = module.exports = function(config)
 {
     if (!(this instanceof Membrane))
@@ -38,8 +47,8 @@ const Membrane = module.exports = function(config)
 
     self.tls =
     {
-        rejectUnauthorized: (config && config.tls && config.tls.rejectUnauthorized === false) ? false : true
-    }
+        trustedCA: (config && config.tls && config.tls.trustedCA) ? config.tls.trustedCA : {}
+    };
 };
 
 util.inherits(Membrane, events.EventEmitter);
@@ -134,15 +143,16 @@ Membrane.prototype.create = function(createCapability, membrane, callback)
     {
         return callback(validation.error);
     }
+    const authority = CapabilityURI.parse(createCapability).authority;
     const body = JSON.stringify(membrane);
     const options =
     {
+        ca: self.tls.trustedCA[authority],
         headers:
         {
             "content-length": Buffer.byteLength(body)
         },
-        method: "POST",
-        rejectUnauthorized: self.tls.rejectUnauthorized
+        method: "POST"
     };
     CapabilitySdk.requestReply(
         createCapability,
@@ -160,10 +170,11 @@ Membrane.prototype.create = function(createCapability, membrane, callback)
 Membrane.prototype.deleteSelf = function(deleteSelfCapability, callback)
 {
     const self = this;
+    const authority = CapabilityURI.parse(deleteSelfCapability).authority;
     CapabilitySdk.requestReply(
         deleteSelfCapability,
         {
-            rejectUnauthorized: self.tls.rejectUnauthorized
+            ca: self.tls.trustedCA[authority]
         },
         null,
         callback
@@ -234,15 +245,16 @@ Membrane.prototype.export = function(exportCapability, config, callback)
     {
         return callback(validation.error);
     }
+    const authority = CapabilityURI.parse(exportCapability).authority;
     const body = JSON.stringify(config);
     const options =
     {
+        ca: self.tls.trustedCA[authority],
         headers:
         {
             "content-length": Buffer.byteLength(body)
         },
-        method: "POST",
-        rejectUnauthorized: self.tls.rejectUnauthorized
+        method: "POST"
     };
     CapabilitySdk.requestReply(
         exportCapability,
@@ -282,9 +294,10 @@ Membrane.prototype.query = function(queryCapability, query = {}, callback)
     {
         return callback(validation.error);
     }
+    const authority = CapabilityURI.parse(queryCapability).authority;
     const options =
     {
-        rejectUnauthorized: self.tls.rejectUnauthorized
+        ca: self.tls.trustedCA[authority]
     };
     if (query.id || query.lastId || query.limit)
     {
@@ -306,10 +319,11 @@ Membrane.prototype.query = function(queryCapability, query = {}, callback)
 Membrane.prototype.revoke = function(revokeCapability, callback)
 {
     const self = this;
+    const authority = CapabilityURI.parse(revokeCapability).authority;
     CapabilitySdk.requestReply(
         revokeCapability,
         {
-            rejectUnauthorized: self.tls.rejectUnauthorized
+            ca: self.tls.trustedCA[authority]
         },
         null,
         callback
