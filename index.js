@@ -151,7 +151,8 @@ CapabilitySDK.requestReply = (capability, options, data, callback) =>
 
 CapabilitySDK.SERVICES =
 [
-    "membrane"
+    "certificate-manager", "membrane"
 ];
 
+CapabilitySDK.CertificateManager = require("./services/certificateManager.js");
 CapabilitySDK.Membrane = require("./services/membrane.js");

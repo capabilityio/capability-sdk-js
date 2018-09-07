@@ -16,6 +16,7 @@ Capability SDK for Node.js.
     * [CapabilitySDK.requestReply(capability, options, data, callback)](#capabilitysdkrequestreplycapability-options-data-callback)
     * [CapabilitySDK.version](#capabilitysdkversion)
     * Services
+      * [Certificate Manager](services/CertificateManager.md): create and manage TLS certificates.
       * [Membrane](services/Membrane.md): create and manage capabilities.
   * [Releases](#releases)
 
@@ -41,6 +42,7 @@ No tests at this time.
   * [CapabilitySDK.requestReply(capability, options, data, callback)](#capabilitysdkrequestreplycapability-options-data-callback)
   * [CapabilitySDK.version](#capabilitysdkversion)
   * Services
+    * [Certificate Manager](services/CertificateManager.md): create and manage TLS certificates.
     * [Membrane](services/Membrane.md): create and manage capabilities.
 
 #### CapabilitySDK.request(capability, options, callback)
