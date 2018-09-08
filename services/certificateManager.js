@@ -20,7 +20,6 @@ const CapabilityURI = require("capability-uri");
 const events = require("events");
 const joi = require("../joi.js");
 const pkg = require("../package.json");
-const querystring = require("querystring");
 const util = require("util");
 
 /*
@@ -255,18 +254,20 @@ CertificateManager.prototype.queryDomains = function(queryDomainsCapability, que
         return callback(validation.error);
     }
     const authority = CapabilityURI.parse(queryDomainsCapability).authority;
+    const body = JSON.stringify(query);
     const options =
     {
-        ca: self.tls.trustedCA[authority]
-    };
-    if (query.domain || query.lastDomain || query.limit)
-    {
-        options.path = `/?${querystring.stringify(query)}`;
+        ca: self.tls.trustedCA[authority],
+        headers:
+        {
+            "content-length": Buffer.byteLength(body, "utf8")
+        },
+        method: "POST"
     };
     CapabilitySDK.requestReply(
         queryDomainsCapability,
         options,
-        null,
+        body,
         callback
     );
 };
