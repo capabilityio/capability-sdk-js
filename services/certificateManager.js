@@ -129,7 +129,7 @@ CertificateManager.SCHEMA =
 CertificateManager.prototype.createDomain = function(createDomainCapability, config, callback)
 {
     const self = this;
-    const validation = Joi.validate(
+    const validation = joi.validate(
         config,
         CertificateManager.SCHEMA.createDomain.config,
         {
@@ -243,7 +243,7 @@ CertificateManager.prototype.deliverCertificate = function(deliverCertificateCap
 CertificateManager.prototype.queryDomains = function(queryDomainsCapability, query = {}, callback)
 {
     const self = this;
-    const validation = Joi.validate(
+    const validation = joi.validate(
         query,
         CertificateManager.SCHEMA.queryDomains.query,
         {
@@ -289,7 +289,7 @@ CertificateManager.prototype.queryDomains = function(queryDomainsCapability, que
 CertificateManager.prototype.updateDomain = function(updateDomainCapability, config, callback)
 {
     const self = this;
-    const validation = Joi.validate(
+    const validation = joi.validate(
         config,
         CertificateManager.SCHEMA.updateDomain.config,
         {
