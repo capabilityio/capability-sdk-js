@@ -89,15 +89,18 @@ certMngr.createDomain(
 #### certMngr.deleteDomain(deleteDomainCapability, callback)
 
   * `deleteDomainCapability`: _Capability URI_ Capability to delete a domain.
-  * `callback`: _Function_ `(error) => {}`
+  * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
+    * `response`: _Object_ Response.
+      * `statusCode`: _Number_ HTTP status code.
+      * `message`: _String_ HTTP reason phrase.
 
 Deletes a domain. Deleting a domain results in deletion of the corresponding certificate from Certificate Manager Service, so that it will no longer be deliverable. However, the certificate itself will not be revoked with the Certificate Authority and will remain valid until its expiration date.
 
 Example:
 ```javascript
 const deleteDomainCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-8irkkgMRuAMPAJZXaKVt5-QuWQ5FN0cRaRyoWQEY7bQMrLtgpEFE1Q-2u_AgypzQ9st-rMExniKcA7Va51T-nQ";
-certMngr.deleteDomain(deleteDomainCapability, error =>
+certMngr.deleteDomain(deleteDomainCapability, (error, resp) =>
     {
         if (error)
         {
@@ -105,8 +108,15 @@ certMngr.deleteDomain(deleteDomainCapability, error =>
         }
         else
         {
-            // success
+            console.log(resp); // successful response
         }
+        /*
+        resp =
+        {
+            statusCode: 200,
+            message: "OK"
+        }
+        */
     }
 );
 ```
@@ -114,15 +124,18 @@ certMngr.deleteDomain(deleteDomainCapability, error =>
 #### certMngr.deleteSelf(deleteSelfCapability, callback)
 
   * `deleteSelfCapability`: _Capability URI_ Capability to delete self.
-  * `callback`: _Function_ `(error) => {}`
+  * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
+    * `response`: _Object_ Response.
+      * `statusCode`: _Number_ HTTP status code.
+      * `message`: _String_ HTTP reason phrase.
 
 Deletes Certificate Manager Service tenant (your account within Certificate Manager Service). This will delete all domains and certificates within Certificate Manager Service. The certificates themselves will not be revoked and will remain valid until their expirationd ate.
 
 Example:
 ```javascript
 const deleteSelfCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-nDVxOGSXGjtReivGPNuJ1qJQTCs0_BxD_2SLsfs9jfn5rGOKnAYrUQUHAorArSGVUw_JlvtVC9dd6f-yjuikgA";
-certMngr.deleteSelf(deleteSelfCapability, error =>
+certMngr.deleteSelf(deleteSelfCapability, (error, resp) =>
     {
         if (error)
         {
@@ -130,8 +143,15 @@ certMngr.deleteSelf(deleteSelfCapability, error =>
         }
         else
         {
-            // success
+            console.log(resp); // successful response
         }
+        /*
+        resp =
+        {
+            statusCode: 202,
+            message: "Accepted"
+        }
+        */
     }
 );
 ```
@@ -139,8 +159,11 @@ certMngr.deleteSelf(deleteSelfCapability, error =>
 #### certMngr.deliverCertificate(deliverCertificateCapability, callback)
 
   * `deliverCertificateCapability`: _Capability URI_ Capability to deliver certificate.
-  * `callback`: _Function_ `(error) => {}`
+  * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
+    * `response`: _Object_ Response.
+      * `statusCode`: _Number_ HTTP status code.
+      * `message`: _String_ HTTP reason phrase.
 
 Delivers the certificate to the corresponding `receiveCertificate` capability. When this capability is invoked, the Certificate Manager Service will invoke the corresponding `receiveCertificate` capability provided on domain creation. The payload delivered via `receiveCertificate` capability is a JSON object with the following fields:
 
@@ -151,7 +174,7 @@ Delivers the certificate to the corresponding `receiveCertificate` capability. W
 Example:
 ```javascript
 const deliverCertificateCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-OCbHj6-Yxn5HfTUKwAxcOILZ_MknA1sjBuKcl3GnL8VZfKuf63a-ce-eerYDzQDLacKPVtAV9ey_ELguTkMLwQ";
-certMngr.deliverCertificate(deliverCertificateCapability, error =>
+certMngr.deliverCertificate(deliverCertificateCapability, (error, resp) =>
     {
         if (error)
         {
@@ -159,8 +182,15 @@ certMngr.deliverCertificate(deliverCertificateCapability, error =>
         }
         else
         {
-            // success
+            console.log(resp); // successful response
         }
+        /*
+        resp =
+        {
+            statusCode: 200,
+            message: "OK"
+        }
+        */
     }
 );
 ```
@@ -223,15 +253,18 @@ certMngr.queryDomains(queryDomainsCapability, undefined, (error, resp) =>
     * `capabilities`: _Object_ Capabilities for the service to use.
       * `receiveCertificate`: _Capability URI_ Capability the Certificate Manager Service will use to deliver the created certificate.
       * `updateChallenge`: _Capability URI_ Capability the Certificate Manager Service will use to provide a challenge in order to verify domain name ownership.
-  * `callback`: _Function_ `(error) => {}`
+  * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
+    * `response`: _Object_ Response.
+      * `statusCode`: _Number_ HTTP status code.
+      * `message`: _String_ HTTP reason phrase.
 
 Updates capabilities to be used by Certificate Manager Service for the domain.
 
 Example:
 ```javascript
 const updateDomainCapability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-8mH2u18nDTIt6fDH_bGO8Zcc89rqppX5Bdi8qyqH_c1VvjmRRTSojlUT3YS4pLwQcd375cinrQoOEfx1UhV4zg";
-certMngr.updateDomain(updateDomainCapability, error =>
+certMngr.updateDomain(updateDomainCapability, (error, resp) =>
     {
         if (error)
         {
@@ -239,8 +272,15 @@ certMngr.updateDomain(updateDomainCapability, error =>
         }
         else
         {
-            // success
+            console.log(resp); // successful response
         }
+        /*
+        resp =
+        {
+            statusCode: 200,
+            message: "OK"
+        }
+        */
     }
 );
 ```

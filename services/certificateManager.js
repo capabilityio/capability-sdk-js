@@ -161,8 +161,11 @@ CertificateManager.prototype.createDomain = function(createDomainCapability, con
 
 /*
   * `deleteDomainCapability`: _Capability URI_ Capability to delete a domain.
-  * `callback`: _Function_ `(error) => {}`
+  * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
+    * `response`: _Object_ Response.
+      * `statusCode`: _Number_ HTTP status code.
+      * `message`: _String_ HTTP reason phrase.
 */
 CertificateManager.prototype.deleteDomain = function(deleteDomainCapability, callback)
 {
@@ -180,8 +183,11 @@ CertificateManager.prototype.deleteDomain = function(deleteDomainCapability, cal
 
 /*
   * `deleteSelfCapability`: _Capability URI_ Capability to delete self.
-  * `callback`: _Function_ `(error) => {}`
+  * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
+    * `response`: _Object_ Response.
+      * `statusCode`: _Number_ HTTP status code.
+      * `message`: _String_ HTTP reason phrase.
 */
 CertificateManager.prototype.deleteSelf = function(deleteSelfCapability, callback)
 {
@@ -200,8 +206,11 @@ CertificateManager.prototype.deleteSelf = function(deleteSelfCapability, callbac
 /*
   * `deliverCertificateCapability`: _Capability URI_ Capability to deliver
       certificate.
-  * `callback`: _Function_ `(error) => {}`
+  * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
+    * `response`: _Object_ Response.
+      * `statusCode`: _Number_ HTTP status code.
+      * `message`: _String_ HTTP reason phrase.
 */
 CertificateManager.prototype.deliverCertificate = function(deliverCertificateCapability, callback)
 {
@@ -271,8 +280,11 @@ CertificateManager.prototype.queryDomains = function(queryDomainsCapability, que
       * `updateChallenge`: _Capability URI_ Capability the Certificate Manager
           Service will use to provide a challenge in order to verify domain name
           ownership.
-  * `callback`: _Function_ `(error) => {}`
+  * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
+    * `response`: _Object_ Response.
+      * `statusCode`: _Number_ HTTP status code.
+      * `message`: _String_ HTTP reason phrase.
 */
 CertificateManager.prototype.updateDomain = function(updateDomainCapability, config, callback)
 {
