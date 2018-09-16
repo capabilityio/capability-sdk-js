@@ -15,7 +15,7 @@
  */
 "use strict";
 
-const CapabilitySdk = require("../index.js");
+const CapabilitySDK = require("../index.js");
 const CapabilityURI = require("capability-uri");
 const events = require("events");
 const http = require("http");
@@ -154,7 +154,7 @@ Membrane.prototype.create = function(createCapability, membrane, callback)
         },
         method: "POST"
     };
-    CapabilitySdk.requestReply(
+    CapabilitySDK.requestReply(
         createCapability,
         options,
         body,
@@ -171,7 +171,7 @@ Membrane.prototype.deleteSelf = function(deleteSelfCapability, callback)
 {
     const self = this;
     const authority = CapabilityURI.parse(deleteSelfCapability).authority;
-    CapabilitySdk.requestReply(
+    CapabilitySDK.requestReply(
         deleteSelfCapability,
         {
             ca: self.tls.trustedCA[authority]
@@ -256,7 +256,7 @@ Membrane.prototype.export = function(exportCapability, config, callback)
         },
         method: "POST"
     };
-    CapabilitySdk.requestReply(
+    CapabilitySDK.requestReply(
         exportCapability,
         options,
         body,
@@ -303,7 +303,7 @@ Membrane.prototype.query = function(queryCapability, query = {}, callback)
     {
         options.path = `/?${querystring.stringify(query)}`;
     };
-    CapabilitySdk.requestReply(
+    CapabilitySDK.requestReply(
         queryCapability,
         options,
         undefined,
@@ -320,7 +320,7 @@ Membrane.prototype.revoke = function(revokeCapability, callback)
 {
     const self = this;
     const authority = CapabilityURI.parse(revokeCapability).authority;
-    CapabilitySdk.requestReply(
+    CapabilitySDK.requestReply(
         revokeCapability,
         {
             ca: self.tls.trustedCA[authority]

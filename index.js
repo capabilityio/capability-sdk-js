@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Capability LLC. All Rights Reserved.
+ * Copyright 2017-2018 Capability LLC. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,18 @@
  */
 "use strict";
 
-const CapabilityUri = require("capability-uri");
+const CapabilityURI = require("capability-uri");
 const concat = require("concat-stream");
 const events = require("events");
 const https = require("https");
 const pkg = require("./package.json");
 const util = require("util");
 
-const CapabilitySdk = module.exports = function(config = {})
+const CapabilitySDK = module.exports = function(config = {})
 {
-    if (!(this instanceof CapabilitySdk))
+    if (!(this instanceof CapabilitySDK))
     {
-        return new CapabilitySdk(config);
+        return new CapabilitySDK(config);
     }
     const self = this;
     events.EventEmitter.call(self);
@@ -37,7 +37,9 @@ const CapabilitySdk = module.exports = function(config = {})
     self.version = pkg.version;
 };
 
-util.inherits(CapabilitySdk, events.EventEmitter);
+util.inherits(CapabilitySDK, events.EventEmitter);
+
+CapabilitySDK.version = pkg.version;
 
 /*
   * `capability`: _Capability URI_ Capability to use.
@@ -47,9 +49,9 @@ util.inherits(CapabilitySdk, events.EventEmitter);
       callback that will be added as one time listener for the "response" event.
   * Return: _http.ClientRequest_ Node.js HTTP ClientRequest object.
 */
-CapabilitySdk.request = (capability, options, callback) =>
+CapabilitySDK.request = (capability, options, callback) =>
 {
-    const uri = CapabilityUri.parse(capability);
+    const uri = CapabilityURI.parse(capability);
     if (!uri.authority)
     {
         throw new Error(`Unable to determine capability authority to use for HTTPS request`);
@@ -86,9 +88,9 @@ CapabilitySdk.request = (capability, options, callback) =>
     * `error`: _Error_ Error, if any.
     * `resp`: _Object_ Response object.
 */
-CapabilitySdk.requestReply = (capability, options, data, callback) =>
+CapabilitySDK.requestReply = (capability, options, data, callback) =>
 {
-    const req = CapabilitySdk.request(capability, options);
+    const req = CapabilitySDK.request(capability, options);
     req.on("response", resp =>
         {
             resp.pipe(concat({encoding: "string"}, response =>
@@ -143,9 +145,9 @@ CapabilitySdk.requestReply = (capability, options, data, callback) =>
     req.end();
 };
 
-CapabilitySdk.SERVICES =
+CapabilitySDK.SERVICES =
 [
     "membrane"
 ];
 
-CapabilitySdk.Membrane = require("./services/membrane.js");
+CapabilitySDK.Membrane = require("./services/membrane.js");

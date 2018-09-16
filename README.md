@@ -12,8 +12,9 @@ Capability SDK for Node.js.
   * [Usage](#usage)
   * [Tests](#tests)
   * [Documentation](#documentation)
-    * [CapabilitySdk.request(capability, options, callback)](#capabilitysdkrequestcapability-options-callback)
-    * [CapabilitySdk.requestReply(capability, options, data, callback)](#capabilitysdkrequestreplycapability-options-data-callback)
+    * [CapabilitySDK.request(capability, options, callback)](#capabilitysdkrequestcapability-options-callback)
+    * [CapabilitySDK.requestReply(capability, options, data, callback)](#capabilitysdkrequestreplycapability-options-data-callback)
+    * [CapabilitySDK.version](#capabilitysdkversion)
     * Services
       * [Membrane](services/Membrane.md): create and manage capabilities.
   * [Releases](#releases)
@@ -27,7 +28,7 @@ Capability SDK for Node.js.
 SDK can be `require`'d in your Node.js application via `require()`.
 
 ```javascript
-const CapabilitySdk = require("capability-sdk");
+const CapabilitySDK = require("capability-sdk");
 ```
 
 ## Tests
@@ -36,12 +37,13 @@ No tests at this time.
 
 ## Documentation
 
-  * [CapabilitySdk.request(capability, options, callback)](#capabilitysdkrequestcapability-options-callback)
-  * [CapabilitySdk.requestReply(capability, options, data, callback)](#capabilitysdkrequestreplycapability-options-data-callback)
+  * [CapabilitySDK.request(capability, options, callback)](#capabilitysdkrequestcapability-options-callback)
+  * [CapabilitySDK.requestReply(capability, options, data, callback)](#capabilitysdkrequestreplycapability-options-data-callback)
+  * [CapabilitySDK.version](#capabilitysdkversion)
   * Services
     * [Membrane](services/Membrane.md): create and manage capabilities.
 
-#### CapabilitySdk.request(capability, options, callback)
+#### CapabilitySDK.request(capability, options, callback)
 
   * `capability`: _Capability URI_ Capability to use.
   * `options`: _Object_ HTTPS request options, if any. Hostname, port, and authorization header will be overriden by the specified `capability`.
@@ -51,7 +53,7 @@ No tests at this time.
 Creates an HTTPS request using the provided `capability` and HTTP `options`. For example:
 ```javascript
 const capability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-aqp9nlT7a22dTGhks8vXMJNabKyIZ_kAES6U87Ljdg73xXiatBzgu5tImuWjFMXicgYb3Vpo0-C6mbm5_uFtAA";
-const req = CapabilitySdk.request(capability);
+const req = CapabilitySDK.request(capability);
 req.on("response", resp =>
     {
         console.log(`STATUS: ${resp.statusCode}`);
@@ -70,7 +72,7 @@ req.write("my data to write");
 req.end();
 ```
 
-#### CapabilitySdk.requestReply(capability, options, data, callback)
+#### CapabilitySDK.requestReply(capability, options, data, callback)
 
   * `capability`: _Capability URI_ Capability to use.
   * `options`: _Object_ HTTPS request options, if any. Hostname, port, and authorization header will be overriden by the specified `capability`.
@@ -83,7 +85,7 @@ Creates an HTTPS request, sends `data` in the request, awaits JSON response, par
 ```javascript
 const capability = "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-hcghmWpaSIR6mi7Qf1wTm4StWzckTNeYoVZhmyCZ9p5tkjrgpFS1hXOo3nQ60exxooUhX9Oo6JJVuAMlVFiNkg";
 const payload = JSON.stringify({hi: "o/"});
-CapabilitySdk.requestReply(
+CapabilitySDK.requestReply(
     capability,
     {
         headers:
@@ -102,6 +104,10 @@ CapabilitySdk.requestReply(
     }
 );
 ```
+
+#### CapabilitySDK.version
+
+Property containing the `capability-sdk` module version being used.
 
 ## Releases
 
