@@ -133,7 +133,20 @@ CapabilitySDK.requestReply = (capability, options, data, callback) =>
                 {
                     error: "Request failed",
                     message: `Request failed due to ${error}`,
-                    details: error
+                    details: Object.assign(
+                        Object.keys(error).reduce(
+                            (obj, key) =>
+                            {
+                                obj[key] = error[key];
+                                return obj;
+                            },
+                            {}
+                        ),
+                        {
+                            message: error.message,
+                            stack: error.stack
+                        }
+                    )
                 }
             );
         }
