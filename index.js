@@ -57,7 +57,7 @@ CapabilitySDK.request = (capability, options, callback) =>
         throw new Error(`Unable to determine capability authority to use for HTTPS request`);
     }
     const uriParts = uri.authority.split(":");
-    const reqOptions = options || {};
+    const reqOptions = Object.assign({}, options);
     reqOptions.hostname = uriParts[0];
     if (uriParts[1])
     {
