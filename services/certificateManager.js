@@ -19,7 +19,6 @@ const CapabilitySDK = require("../index.js");
 const CapabilityURI = require("capability-uri");
 const events = require("events");
 const joi = require("../joi.js");
-const okError = require("../okError.js");
 const pkg = require("../package.json");
 const util = require("util");
 
@@ -155,7 +154,7 @@ CertificateManager.prototype.createDomain = function(createDomainCapability, con
         createDomainCapability,
         options,
         body,
-        okError(callback)
+        callback
     );
 };
 
@@ -177,7 +176,7 @@ CertificateManager.prototype.deleteDomain = function(deleteDomainCapability, cal
             ca: self.tls.trustedCA[authority]
         },
         null,
-        okError(callback)
+        callback
     );
 };
 
@@ -199,7 +198,7 @@ CertificateManager.prototype.deleteSelf = function(deleteSelfCapability, callbac
             ca: self.tls.trustedCA[authority]
         },
         null,
-        okError(callback)
+        callback
     );
 };
 
@@ -222,7 +221,7 @@ CertificateManager.prototype.deliverCertificate = function(deliverCertificateCap
             ca: self.tls.trustedCA[authority]
         },
         null,
-        okError(callback)
+        callback
     );
 };
 
@@ -269,7 +268,7 @@ CertificateManager.prototype.queryDomains = function(queryDomainsCapability, que
         queryDomainsCapability,
         options,
         body,
-        okError(callback)
+        callback
     );
 };
 
@@ -317,6 +316,6 @@ CertificateManager.prototype.updateDomain = function(updateDomainCapability, con
         updateDomainCapability,
         options,
         body,
-        okError(callback)
+        callback
     );
 };
