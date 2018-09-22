@@ -122,7 +122,11 @@ CapabilitySDK.requestReply = (capability, options, data, callback) =>
                             }
                         );
                     }
-                    return callback(null, response);
+                    if (response.statusCode >= 400)
+                    {
+                        return callback(response);
+                    }
+                    return callback(undefined, response);
                 }
             ));
         }
