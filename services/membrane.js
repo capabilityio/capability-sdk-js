@@ -131,7 +131,7 @@ Membrane.SCHEMA =
 Membrane.prototype.create = function(createCapability, membrane, callback)
 {
     const self = this;
-    const validation = Joi.validate(
+    const validation = joi.validate(
         membrane,
         Membrane.SCHEMA.create.membrane,
         {
@@ -233,7 +233,7 @@ Membrane.prototype.deleteSelf = function(deleteSelfCapability, callback)
 Membrane.prototype.export = function(exportCapability, config, callback)
 {
     const self = this;
-    const validation = Joi.validate(
+    const validation = joi.validate(
         config,
         Membrane.SCHEMA.export.config,
         {
@@ -282,7 +282,7 @@ Membrane.prototype.export = function(exportCapability, config, callback)
 Membrane.prototype.query = function(queryCapability, query = {}, callback)
 {
     const self = this;
-    const validation = Joi.validate(
+    const validation = joi.validate(
         query,
         Membrane.SCHEMA.query.query,
         {
