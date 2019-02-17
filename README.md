@@ -17,6 +17,7 @@ Capability SDK for Node.js.
     * [CapabilitySDK.version](#capabilitysdkversion)
     * Services
       * [Certificate Manager](services/CertificateManager.md): create and manage TLS certificates.
+      * [Media](services/Media.md): send transactional emails to customers without having to store their email addresses or other Personally Identifiable Information (PII).
       * [Membrane](services/Membrane.md): create and manage capabilities.
   * [Releases](#releases)
 
@@ -43,6 +44,7 @@ No tests at this time.
   * [CapabilitySDK.version](#capabilitysdkversion)
   * Services
     * [Certificate Manager](services/CertificateManager.md): create and manage TLS certificates.
+    * [Media](services/Media.md): send transactional emails to customers without having to store their email addresses or other Personally Identifiable Information (PII).
     * [Membrane](services/Membrane.md): create and manage capabilities.
 
 #### CapabilitySDK.request(capability, options, callback)

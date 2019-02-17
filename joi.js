@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Capability LLC. All Rights Reserved.
+ * Copyright 2018-2019 Capability LLC. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,51 @@ module.exports = Joi.extend(
                                     "string.capabilityURI",
                                     {
                                         v: value,
+                                    },
+                                    state,
+                                    options
+                                );
+                            }
+                            return value;
+                        }
+                    }
+                ]
+            }
+        ),
+        joi => (
+            {
+                name: "string",
+                base: joi.string(),
+                language:
+                {
+                    email: "needs to be an ascii encoded email with maximum size of 512 characters"
+                },
+                rules:
+                [
+                    {
+                        name: "email",
+                        validate(params, value, state, options)
+                        {
+                            let error = false;
+                            if (value && value.length > 512)
+                            {
+                                error = true;
+                            }
+                            const match = regex.email.exec(value);
+                            if (!match)
+                            {
+                                error = true;
+                            }
+                            if (!error && value != Buffer.from(value, "utf8").toString("ascii"))
+                            {
+                                error = true;
+                            }
+                            if (error)
+                            {
+                                return this.createError(
+                                    "string.email",
+                                    {
+                                        v: value
                                     },
                                     state,
                                     options
