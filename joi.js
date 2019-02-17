@@ -17,6 +17,7 @@
 
 const CapabilityURI = require("capability-uri");
 const Joi = require("joi");
+const regex = require("./regex.js");
 
 module.exports = Joi.extend(
     [
