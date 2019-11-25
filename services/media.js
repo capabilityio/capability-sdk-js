@@ -19,7 +19,7 @@
 const CapabilitySDK = require("../index.js");
 const CapabilityURI = require("capability-uri");
 const events = require("events");
-const joi = require("../joi.js");
+const Joi = require("../joi.js");
 const pkg = require("../package.json");
 const util = require("util");
 
@@ -47,62 +47,62 @@ Media.SCHEMA =
 {
     createEmail:
     {
-        config: joi.object().keys(
+        config: Joi.object().keys(
             {
-                customId: joi.string().max(512).required(),
-                derivedId: joi.string().max(512).required(),
-                email: joi.string().email().required()
+                customId: Joi.string().max(512).required(),
+                derivedId: Joi.string().max(512).required(),
+                email: Joi.email().required()
             }
         ).required()
     },
     createEmailDomainIdentity:
     {
-        config: joi.object().keys(
+        config: Joi.object().keys(
             {
-                domain: joi.string().max(512).required()
+                domain: Joi.string().max(512).required()
             }
         ).required()
     },
     getEmailCustomId:
     {
-        derivedId: joi.string().max(512).required()
+        derivedId: Joi.string().max(512).required()
     },
     queryEmailDomainIdentities:
     {
-        query: joi.object().keys(
+        query: Joi.object().keys(
             {
-                domain: joi.string().max(512),
-                lastDomain: joi.string().max(512),
-                limit: joi.number().integer()
+                domain: Joi.string().max(512),
+                lastDomain: Joi.string().max(512),
+                limit: Joi.number().integer()
             }
         ).required()
     },
     sendEmail:
     {
-        replyToAddresses: joi.array().items(joi.string().email()),
-        returnPath: joi.string().email(),
-        source: joi.string().email().required()
+        replyToAddresses: Joi.array().items(Joi.string().email()),
+        returnPath: Joi.email(),
+        source: Joi.email().required()
     }
 };
-Media.SCHEMA.sendEmail.content = joi.object().keys(
+Media.SCHEMA.sendEmail.content = Joi.object().keys(
     {
-        charset: joi.string(),
-        data: joi.string().required()
+        charset: Joi.string(),
+        data: Joi.string().required()
     }
 );
-Media.SCHEMA.sendEmail.body = joi.object().keys(
+Media.SCHEMA.sendEmail.body = Joi.object().keys(
     {
         html: Media.SCHEMA.sendEmail.content,
         text: Media.SCHEMA.sendEmail.content
     }
 ).required();
-Media.SCHEMA.sendEmail.message = joi.object().keys(
+Media.SCHEMA.sendEmail.message = Joi.object().keys(
     {
         body: Media.SCHEMA.sendEmail.body,
         subject: Media.SCHEMA.sendEmail.content.required()
     }
 ).required();
-Media.SCHEMA.sendEmail.config = joi.object().keys(
+Media.SCHEMA.sendEmail.config = Joi.object().keys(
     {
         message: Media.SCHEMA.sendEmail.message,
         replyToAddresses: Media.SCHEMA.sendEmail.replyToAddresses,
@@ -134,9 +134,8 @@ Media.SCHEMA.sendEmail.config = joi.object().keys(
 Media.prototype.createEmail = function(capability, config, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = Media.SCHEMA.createEmail.config.validate(
         config,
-        Media.SCHEMA.createEmail.config,
         {
             convert: false
         }
@@ -175,9 +174,8 @@ Media.prototype.createEmail = function(capability, config, callback)
 Media.prototype.createEmailDomainIdentity = function(capability, config, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = Media.SCHEMA.createEmailDomainIdentity.config.validate(
         config,
-        Media.SCHEMA.createEmailDomainIdentity.config,
         {
             convert: false
         }
@@ -272,9 +270,8 @@ Media.prototype.deleteSelf = function(capability, callback)
 Media.prototype.getEmailCustomId = function(capability, derivedId, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = Media.SCHEMA.getEmailCustomId.derivedId.validate(
         derivedId,
-        Media.SCHEMA.getEmailCustomId.derivedId,
         {
             convert: false
         }
@@ -337,9 +334,8 @@ Media.prototype.getVerificationStatus = function(capability, callback)
 Media.prototype.queryEmailDomainIdentities = function(capability, query = {}, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = Media.SCHEMA.queryEmailDomainIdentities.query.validate(
         query,
-        Media.SCHEMA.queryEmailDomainIdentities.query,
         {
             convert: false
         }
@@ -401,9 +397,8 @@ Media.prototype.queryEmailDomainIdentities = function(capability, query = {}, ca
 Media.prototype.sendEmail = function(capability, config, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = Media.SCHEMA.sendEmail.config.validate(
         config,
-        Media.SCHEMA.sendEmail.config,
         {
             convert: false
         }

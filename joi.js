@@ -16,87 +16,68 @@
 "use strict";
 
 const CapabilityURI = require("capability-uri");
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 const regex = require("./regex.js");
 
 module.exports = Joi.extend(
-    [
-        joi => (
+    joi => (
+        {
+            type: "capabilityURI",
+            base: joi.string(),
+            messages:
             {
-                name: "string",
-                base: joi.string(),
-                language:
-                {
-                    capabilityURI: "needs to be a CapabilityURI"
-                },
-                rules:
-                [
-                    {
-                        name: "capabilityURI",
-                        validate(params, value, state, options)
-                        {
-                            const match = CapabilityURI.parse(value);
-                            if (!match)
-                            {
-                                return this.createError(
-                                    "string.capabilityURI",
-                                    {
-                                        v: value,
-                                    },
-                                    state,
-                                    options
-                                );
-                            }
-                            return value;
-                        }
-                    }
-                ]
-            }
-        ),
-        joi => (
+                capabilityURI: "needs to be a CapabilityURI"
+            },
+            validate(value, helpers)
             {
-                name: "string",
-                base: joi.string(),
-                language:
+                const match = CapabilityURI.parse(value);
+                if (!match)
                 {
-                    email: "needs to be an ascii encoded email with maximum size of 512 characters"
-                },
-                rules:
-                [
-                    {
-                        name: "email",
-                        validate(params, value, state, options)
+                    return (
                         {
-                            let error = false;
-                            if (value && value.length > 512)
-                            {
-                                error = true;
-                            }
-                            const match = regex.email.exec(value);
-                            if (!match)
-                            {
-                                error = true;
-                            }
-                            if (!error && value != Buffer.from(value, "utf8").toString("ascii"))
-                            {
-                                error = true;
-                            }
-                            if (error)
-                            {
-                                return this.createError(
-                                    "string.email",
-                                    {
-                                        v: value
-                                    },
-                                    state,
-                                    options
-                                );
-                            }
-                            return value;
+                            value,
+                            errors: helpers.error("capabilityURI")
                         }
-                    }
-                ]
+                    );
+                }
             }
-        )
-    ]
+        }
+    )
+).extend(
+    joi => (
+        {
+            type: "email",
+            base: joi.string(),
+            messages:
+            {
+                email: "needs to be an ascii encoded email with maximum size of 512 characters"
+            },
+            validate(value, helpers)
+            {
+                let error = false;
+                if (value && value.length > 512)
+                {
+                    error = true;
+                }
+                const match = regex.email.exec(value);
+                if (!match)
+                {
+                    error = true;
+                }
+                if (!error && value != Buffer.from(value, "utf8").toString("ascii"))
+                {
+                    error = true;
+                }
+                if (error)
+                {
+                    return (
+                        {
+                            value,
+                            errors: helpers.error("email")
+                        }
+                    );
+                }
+            }
+        }
+    )
 );

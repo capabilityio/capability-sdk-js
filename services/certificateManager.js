@@ -18,7 +18,7 @@
 const CapabilitySDK = require("../index.js");
 const CapabilityURI = require("capability-uri");
 const events = require("events");
-const joi = require("../joi.js");
+const Joi = require("../joi.js");
 const pkg = require("../package.json");
 const util = require("util");
 
@@ -54,22 +54,22 @@ CertificateManager.SCHEMA =
 {
     createDomain:
     {
-        config: joi.object().keys(
+        config: Joi.object().keys(
             {
-                domain: joi.string().max(256).required(),
-                capabilities: joi.object().keys(
+                domain: Joi.string().max(256).required(),
+                capabilities: Joi.object().keys(
                     {
-                        receiveCertificate: joi.string().capabilityURI().required(),
-                        updateChallenge: joi.string().capabilityURI().required()
+                        receiveCertificate: Joi.capabilityURI().required(),
+                        updateChallenge: Joi.capabilityURI().required()
                     }
                 ).required(),
-                subject: joi.object().keys(
+                subject: Joi.object().keys(
                     {
-                        country: joi.string().min(2).max(2),
-                        stateProvince: joi.string().max(128),
-                        locality: joi.string().max(128),
-                        organization: joi.string().max(64),
-                        organizationalUnit: joi.string().max(64)
+                        country: Joi.string().min(2).max(2),
+                        stateProvince: Joi.string().max(128),
+                        locality: Joi.string().max(128),
+                        organization: Joi.string().max(64),
+                        organizationalUnit: Joi.string().max(64)
                     }
                 )
             }
@@ -77,22 +77,22 @@ CertificateManager.SCHEMA =
     },
     queryDomains:
     {
-        query: joi.object().keys(
+        query: Joi.object().keys(
             {
-                domain: joi.string().max(256),
-                lastDomain: joi.string().max(256),
-                limit: joi.number().integer()
+                domain: Joi.string().max(256),
+                lastDomain: Joi.string().max(256),
+                limit: Joi.number().integer()
             }
         ).required()
     },
     updateDomain:
     {
-        config: joi.object().keys(
+        config: Joi.object().keys(
             {
-                capabilities: joi.object().keys(
+                capabilities: Joi.object().keys(
                     {
-                        receiveCertificate: joi.string().capabilityURI(),
-                        updateChallenge: joi.string().capabilityURI()
+                        receiveCertificate: Joi.capabilityURI(),
+                        updateChallenge: Joi.capabilityURI()
                     }
                 ).required()
             }
@@ -128,9 +128,8 @@ CertificateManager.SCHEMA =
 CertificateManager.prototype.createDomain = function(createDomainCapability, config, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = CertificateManager.SCHEMA.createDomain.config.validate(
         config,
-        CertificateManager.SCHEMA.createDomain.config,
         {
             convert: false
         }
@@ -242,9 +241,8 @@ CertificateManager.prototype.deliverCertificate = function(deliverCertificateCap
 CertificateManager.prototype.queryDomains = function(queryDomainsCapability, query = {}, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = CertificateManager.SCHEMA.queryDomains.query.validate(
         query,
-        CertificateManager.SCHEMA.queryDomains.query,
         {
             convert: false
         }
@@ -290,9 +288,8 @@ CertificateManager.prototype.queryDomains = function(queryDomainsCapability, que
 CertificateManager.prototype.updateDomain = function(updateDomainCapability, config, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = CertificateManager.SCHEMA.updateDomain.config.validate(
         config,
-        CertificateManager.SCHEMA.updateDomain.config,
         {
             convert: false
         }

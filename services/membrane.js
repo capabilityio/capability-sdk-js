@@ -19,7 +19,7 @@ const CapabilitySDK = require("../index.js");
 const CapabilityURI = require("capability-uri");
 const events = require("events");
 const http = require("http");
-const joi = require("../joi.js");
+const Joi = require("../joi.js");
 const pkg = require("../package.json");
 const querystring = require("querystring");
 const regex = require("../regex.js");
@@ -57,48 +57,48 @@ Membrane.SCHEMA =
 {
     create:
     {
-        membrane: joi.object().keys(
+        membrane: Joi.object().keys(
             {
-                id: joi.string().max(256).required()
+                id: Joi.string().max(256).required()
             }
         ).required()
     },
     export:
     {
-        config: joi.object().keys(
+        config: Joi.object().keys(
             {
-                allowQuery: joi.boolean(),
-                capability: joi.string().capabilityURI(),
-                headers: joi.object(),
-                hmac: joi.object().keys(
+                allowQuery: Joi.boolean(),
+                capability: Joi.capabilityURI(),
+                headers: Joi.object(),
+                hmac: Joi.object().keys(
                     {
-                        "aws4-hmac-sha256": joi.object().keys(
+                        "aws4-hmac-sha256": Joi.object().keys(
                             {
-                                awsAccessKeyId: joi.string().max(128).regex(new RegExp(`^[\\w]+$`)).required(),
-                                region: joi.string().max(128).required(),
-                                secretAccessKey: joi.string().max(256).required(),
-                                service: joi.string().max(128).required()
+                                awsAccessKeyId: Joi.string().max(128).regex(new RegExp(`^[\\w]+$`)).required(),
+                                region: Joi.string().max(128).required(),
+                                secretAccessKey: Joi.string().max(256).required(),
+                                service: Joi.string().max(128).required()
                             }
                         ),
-                        "cap1-hmac-sha512": joi.object().keys(
+                        "cap1-hmac-sha512": Joi.object().keys(
                             {
-                                key: joi.string().regex(new RegExp(`^${regex.base64url.source}$`)).required(),
-                                keyId: joi.string().max(256).required()
+                                key: Joi.string().regex(new RegExp(`^${regex.base64url.source}$`)).required(),
+                                keyId: Joi.string().max(256).required()
                             }
                         )
                     }
                 ).xor("aws4-hmac-sha256", "cap1-hmac-sha512"),
-                method: joi.string().valid(http.METHODS),
-                timeoutMs: joi.number().integer(),
-                tls: joi.object().keys(
+                method: Joi.string().valid(...http.METHODS),
+                timeoutMs: Joi.number().integer(),
+                tls: Joi.object().keys(
                     {
-                        ca: joi.string(),
-                        cert: joi.string(),
-                        key: joi.string(),
-                        rejectUnauthorized: joi.boolean()
+                        ca: Joi.string(),
+                        cert: Joi.string(),
+                        key: Joi.string(),
+                        rejectUnauthorized: Joi.boolean()
                     }
                 ),
-                uri: joi.string().uri(
+                uri: Joi.string().uri(
                     {
                         scheme: [ "http", "https" ]
                     }
@@ -108,11 +108,11 @@ Membrane.SCHEMA =
     },
     query:
     {
-        query: joi.object().keys(
+        query: Joi.object().keys(
             {
-                id: joi.string().max(256),
-                lastId: joi.string().max(256),
-                limit: joi.number().integer()
+                id: Joi.string().max(256),
+                lastId: Joi.string().max(256),
+                limit: Joi.number().integer()
             }
         ).required()
     }
@@ -131,9 +131,8 @@ Membrane.SCHEMA =
 Membrane.prototype.create = function(createCapability, membrane, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = Membrane.SCHEMA.create.membrane.validate(
         membrane,
-        Membrane.SCHEMA.create.membrane,
         {
             convert: false
         }
@@ -233,9 +232,8 @@ Membrane.prototype.deleteSelf = function(deleteSelfCapability, callback)
 Membrane.prototype.export = function(exportCapability, config, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = Membrane.SCHEMA.export.config.validate(
         config,
-        Membrane.SCHEMA.export.config,
         {
             convert: false
         }
@@ -282,9 +280,8 @@ Membrane.prototype.export = function(exportCapability, config, callback)
 Membrane.prototype.query = function(queryCapability, query = {}, callback)
 {
     const self = this;
-    const validation = joi.validate(
+    const validation = Membrane.SCHEMA.query.query.validate(
         query,
-        Membrane.SCHEMA.query.query,
         {
             convert: false
         }
