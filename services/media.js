@@ -418,5 +418,5 @@ Media.prototype.sendEmail = function(capability, config, callback)
         },
         method: "POST"
     };
-    CapabilitySDK.requestReply(capability, config, body, callback);
+    CapabilitySDK.requestReply(capability, options, body, callback);
 };
