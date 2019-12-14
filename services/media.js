@@ -18,6 +18,7 @@
 
 const CapabilitySDK = require("../index.js");
 const CapabilityURI = require("capability-uri");
+const crypto = require("crypto");
 const events = require("events");
 const Joi = require("../joi.js");
 const pkg = require("../package.json");
@@ -414,7 +415,8 @@ Media.prototype.sendEmail = function(capability, config, callback)
         ca: self.tls.trustedCA[authority],
         headers:
         {
-            "content-length": Buffer.byteLength(body, "utf8")
+            "content-length": Buffer.byteLength(body, "utf8"),
+            "x-payload-sha256": crypto.createHash("sha256").update(body).digest("hex")
         },
         method: "POST"
     };
