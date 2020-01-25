@@ -1,6 +1,6 @@
 {
   "name": "capability-sdk",
-  "version": "0.10.4",
+  "version": "0.11.0",
   "description": "Capability SDK for Node.js",
   "dependencies": {
     "@hapi/joi": "17.1.0",
