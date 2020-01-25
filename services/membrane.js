@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 Capability LLC. All Rights Reserved.
+ * Copyright 2017-2020 Capability LLC. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,7 +59,7 @@ Membrane.SCHEMA =
     {
         membrane: Joi.object().keys(
             {
-                id: Joi.string().max(256).required()
+                id: Joi.string().max(512).required()
             }
         ).required()
     },
@@ -110,8 +110,8 @@ Membrane.SCHEMA =
     {
         query: Joi.object().keys(
             {
-                id: Joi.string().max(256),
-                lastId: Joi.string().max(256),
+                id: Joi.string().max(512),
+                lastId: Joi.string().max(512),
                 limit: Joi.number().integer()
             }
         ).required()
