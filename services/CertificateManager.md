@@ -27,12 +27,6 @@ Once an instance of the Certificate Manager Service is created, you can use it t
     * `capabilities`: _Object_ Capabilities for the service to use.
       * `receiveCertificate`: _Capability URI_ Capability the Certificate Manager Service will use to deliver the created certificate.
       * `updateChallenge`: _Capability URI_ Capability the Certificate Manager Service will use to provide a challenge in order to verify domain name ownership.
-    * `subject`: _Object_ Subject to use with the created certificate.
-      * `country`: _String_ The two-letter ISO country code of the country where the organization is located.
-      * `stateProvince`: _String_ The state or province where the organization is located.
-      * `locality`: _String_ The location of the organization, usually a city.
-      * `organization`: _String_ Usually the legal incorporated name of a company and should include any suffixes such as Ltd., Inc., or Corp.
-      * `organizationalUnit`: _String_ e.g. HR, Finance, IT.
   * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
     * `response`: _Object_ Response.
@@ -50,14 +44,6 @@ certMngr.createDomain(
         {
             receiveCertificate: "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-7lq3JyPQKLn0mEAb3HITnimc1MgAfZ1da3C6ynZ7ypttWiodyejxwrZAZEBeFG4RE8ubAX2ADah74vtdpEXofQ",
             updateChallenge: "cpblty://membrane.amzn-us-east-1.capability.io/#CPBLTY1-SOMr2SevnzYRhrXEHGwvJ8VwajrhsGQBYsVIXOCCNvCyUYFKlK5KeJSm6KmwsZUnXsW5_fsUaNcwl8ebZfzXNw"
-        },
-        subject:
-        {
-            country: "US",
-            stateProvince: "TX",
-            locality: "Austin",
-            organization: "Capability LLC",
-            organizationalUnit: "Certificate Manager Service"
         }
     },
     (error, resp) =>

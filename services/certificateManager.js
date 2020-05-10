@@ -62,16 +62,7 @@ CertificateManager.SCHEMA =
                         receiveCertificate: Joi.capabilityURI().required(),
                         updateChallenge: Joi.capabilityURI().required()
                     }
-                ).required(),
-                subject: Joi.object().keys(
-                    {
-                        country: Joi.string().min(2).max(2),
-                        stateProvince: Joi.string().max(128),
-                        locality: Joi.string().max(128),
-                        organization: Joi.string().max(64),
-                        organizationalUnit: Joi.string().max(64)
-                    }
-                )
+                ).required()
             }
         ).required()
     },
@@ -110,15 +101,6 @@ CertificateManager.SCHEMA =
       * `updateChallenge`: _Capability URI_ Capability the Certificate Manager
           Service will use to provide a challenge in order to verify domain name
           ownership.
-    * `subject`: _Object_ Subject to use with the created certificate.
-      * `country`: _String_ The two-letter ISO country code of the country where
-          the organization is located.
-      * `stateProvince`: _String_ The state or province where the organization
-          is located.
-      * `locality`: _String_ The location of the organization, usually a city.
-      * `organization`: _String_ Usually the legal incorporated name of a
-          company and should include any suffixes such as Ltd., Inc., or Corp.
-      * `organizationalUnit`: _String_ e.g. HR, Finance, IT.
   * `callback`: _Function_ `(error, response) => {}`
     * `error`: _Error_ Error, if any.
     * `response`: _Object_ Response.
