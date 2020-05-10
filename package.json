@@ -3,7 +3,7 @@
   "version": "0.11.0",
   "description": "Capability SDK for Node.js",
   "dependencies": {
-    "@hapi/joi": "17.1.0",
+    "@hapi/joi": "17.1.1",
     "capability-uri": "0.4.0",
     "concat-stream": "2.0.0"
   },
